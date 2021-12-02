@@ -1,6 +1,7 @@
 package fr.uge.service_web.Ecorp.Shared;
 
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Set;
 
 public interface EcorpInterface extends IfShareInterface{
@@ -11,6 +12,8 @@ public interface EcorpInterface extends IfShareInterface{
 	IPerson getPersonnelbyname(String fistname, String lastname) throws RemoteException;
 	boolean connect(String email, String passwd) throws RemoteException;
 	
-	
+	public void addcommand(String idbyer,String idproduct,String idoffer) throws RemoteException;
+	public List<Ecommand> getcommands() throws RemoteException;
+	public Ecommand getcommandbyEmploye(String id) throws RemoteException;
 
 }

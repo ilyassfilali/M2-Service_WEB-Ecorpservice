@@ -6,7 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Vector;
 
+import fr.uge.service_web.Ecorp.Shared.Ecommand;
 import fr.uge.service_web.Ecorp.Shared.EcorpInterface;
 import fr.uge.service_web.Ecorp.Shared.IOffer;
 import fr.uge.service_web.Ecorp.Shared.IPerson;
@@ -19,6 +21,7 @@ public class EcorpServices implements EcorpInterface{
 	IfShareInterface ifshare;
 	private HashMap<String, IPerson> employes = new HashMap<String, IPerson>();
 	private HashMap<IPerson, String> employespassword = new HashMap<IPerson, String>();
+	private List<Ecommand> commands = new Vector<>();
 	
 	public EcorpServices(IfShareInterface ifshare) {
 		this.ifshare = ifshare;
@@ -110,6 +113,28 @@ public class EcorpServices implements EcorpInterface{
 				return false;
 			}
 		}
+	}
+
+	@Override
+	public void addcommand(String idbyer,String idproduct, String idoffer) throws RemoteException {
+		IPerson emp = getPersonnel(idoffer);
+		//besoin de .......
+	}
+
+	@Override
+	public List<Ecommand> getcommands() throws RemoteException {
+		// TODO Auto-generated method stub
+		return commands;
+	}
+
+	@Override
+	public Ecommand getcommandbyEmploye(String id) throws RemoteException {
+		for (Ecommand ecommand : commands) {
+			if(ecommand.getbyer() == getPersonnel(id)) {
+				return ecommand;
+			}
+		}
+		return null;
 	}
 
 }

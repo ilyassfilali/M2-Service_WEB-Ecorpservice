@@ -1,10 +1,11 @@
 package fr.uge.service_web.Ecorp.notShared;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import fr.uge.service_web.Ecorp.Shared.IPerson;
 
-public class Employe implements IPerson {
+public class Employe extends UnicastRemoteObject implements IPerson {
 	private String fistname;
 	private String lastname;
 	private String address;
@@ -12,7 +13,7 @@ public class Employe implements IPerson {
 	
 	
 
-	public Employe(String fistname, String lastname, String address, String mail) {
+	public Employe(String fistname, String lastname, String address, String mail) throws RemoteException {
 		super();
 		this.fistname = fistname;
 		this.lastname = lastname;
