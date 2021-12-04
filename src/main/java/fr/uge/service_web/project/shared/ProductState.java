@@ -1,4 +1,4 @@
-package fr.uge.service_web.Ecorp.Shared;
+package fr.uge.service_web.project.shared;
 
 import java.io.Serializable;
 
