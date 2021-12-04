@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface Ecorpsharedinterface extends Remote{
 	
-	public void addpurshase(String iduser,String idoffre,int qt) throws RemoteException;
+	public void addpurshase(String iduser,int idoffre,int qt) throws RemoteException;
 	public List<IPurchase> getpurshasebyuser(String iduser) throws RemoteException;
 	
 	public IUser connect(String email, String passwd) throws RemoteException;
@@ -20,5 +20,5 @@ public interface Ecorpsharedinterface extends Remote{
     Map<? extends IProduct, ? extends IOffer> getOffers() throws RemoteException;
 
     IUser addUser(String id, String firstName, String lastName, String address, String mail) throws RemoteException;
-
+    public IOffer getofferbyid(int id) throws RemoteException;
 }
