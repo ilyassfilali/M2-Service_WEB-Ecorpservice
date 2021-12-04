@@ -10,7 +10,8 @@ public interface EcorpInterface extends IfShareInterface{
 	public List<IOffer> getoffersbyuser(String iduser) throws RemoteException;
 	public List<IOffer> getoffersbyproduct(String idproduct) throws RemoteException;
 	
-	boolean connect(String email, String passwd) throws RemoteException;
+	public boolean connect(String email, String passwd) throws RemoteException;
+	public void addPasswd(String iduser,String passwd) throws RemoteException;
 	
 	public void addpushase(String iduser,String idoffre,int qt) throws RemoteException;
 	public List<IPurchase> getpurshasebyuser(String iduser) throws RemoteException;
