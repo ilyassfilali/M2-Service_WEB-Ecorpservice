@@ -55,7 +55,7 @@ public class Ecorpshared extends UnicastRemoteObject implements Ecorpsharedinter
 	}
 
 	@Override
-	public Map<? extends IProduct, ? extends IOffer> getOffers() throws RemoteException {
+	public Set<? extends IOffer> getOffers() throws RemoteException {
 		// TODO Auto-generated method stub
 		return interface1.getOffers();
 	}

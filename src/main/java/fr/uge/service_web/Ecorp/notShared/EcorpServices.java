@@ -42,7 +42,7 @@ public class EcorpServices extends UnicastRemoteObject implements EcorpInterface
 	}
 
 	@Override
-	public Map<? extends IProduct, ? extends IOffer> getOffers() throws RemoteException {
+	public Set<? extends IOffer> getOffers() throws RemoteException {
 		// TODO Auto-generated method stub
 		return ifshare.getOffers();
 	}
@@ -67,12 +67,7 @@ public class EcorpServices extends UnicastRemoteObject implements EcorpInterface
 
 	@Override
 	public void addoffer(String idpoduit, String iduser,ProductState state,int price,int stock) throws RemoteException {
-		IProduct product = null;
-		for (IProduct pro : getProducts()) {
-			if(pro.getId().equals(idpoduit)) {
-				product = pro;
-			}
-		}
+		IProduct product = getProduct(idpoduit);
 		IUser user = getUser(iduser);
 		user.offer(product, state, price,stock);
 	}
@@ -86,12 +81,8 @@ public class EcorpServices extends UnicastRemoteObject implements EcorpInterface
 
 	@Override
 	public List<IOffer> getoffersbyproduct(String idproduct) throws RemoteException {
-		for (IProduct pr : ifshare.getProducts()) {
-			if(pr.getId().equals(idproduct)) {
-				return (List<IOffer>) ifshare.getOffers().get(pr);
-			}
-		}
-		return null;
+		
+		return new Vector<IOffer>(getProduct(idproduct).getOffers());
 	}
 
 	@Override
@@ -117,6 +108,9 @@ public class EcorpServices extends UnicastRemoteObject implements EcorpInterface
 		List<IUser> users = new Vector<IUser>(ifshare.getUsers());
 		IUser user = users.get(users.size()-1);
 		int id = Integer.parseInt(user.getId()) + 1;
+		if(users.size() == 0) {
+			return "1";
+		}
 		return id+"";
 	}
 
@@ -137,12 +131,18 @@ public class EcorpServices extends UnicastRemoteObject implements EcorpInterface
 
 	@Override
 	public IOffer getofferbyid(int id) throws RemoteException {
-		for (IOffer of : ifshare.getOffers().values()) {
+		for (IOffer of : ifshare.getOffers()) {
 			if(of.getId() == id) {
 				return of;
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public IProduct getProduct(String id) throws RemoteException {
+		
+		return ifshare.getProduct(id);
 	}
 	
 }

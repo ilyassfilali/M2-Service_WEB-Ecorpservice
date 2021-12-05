@@ -10,7 +10,9 @@ public interface IfShareInterface extends Remote {
 
     Set<? extends IProduct> getProducts() throws RemoteException;
 
-    Map<? extends IProduct, ? extends IOffer> getOffers() throws RemoteException;
+    Set<? extends IOffer> getOffers() throws RemoteException;
+    
+    IProduct getProduct(String id) throws RemoteException;
 
     IUser addUser(String id, String firstName, String lastName, String address, String mail) throws RemoteException;
 
