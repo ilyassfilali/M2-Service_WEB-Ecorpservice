@@ -42,24 +42,27 @@ public class EcorpController {
 	}
 	
 	@PostMapping("/Ecorp/inscription")
-	public IUser inscription(@RequestBody SignupReq e) throws RemoteException, MalformedURLException, NotBoundException {
+	public Employe inscription(@RequestBody SignupReq e) throws RemoteException, MalformedURLException, NotBoundException {
 		this.ecorps = rmiconnect();
 		String id = ecorps.getid();
 		ecorps.addPasswd(id, e.getPasswd());
-		return ecorps.addUser(id, e.getFirstname(), e.getLastname(), e.getAddress(), e.getMail());
+		IUser u = ecorps.addUser(id, e.getFirstname(), e.getLastname(), e.getAddress(), e.getMail());
+		return new Employe(u.getFirstName(), u.getLastName(), u.getAddress(), u.getMail());
 		
 	}
 	
 	@PostMapping("/Ecorp/connect")
-	public IUser connect(@RequestBody LoginReq req) throws RemoteException, MalformedURLException, NotBoundException {
+	public Employe connect(@RequestBody LoginReq req) throws RemoteException, MalformedURLException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return ecorps.connect(req.getEmail(), req.getPasswd());
+		IUser u = ecorps.connect(req.getEmail(), req.getPasswd());
+		return new Employe(u.getFirstName(), u.getLastName(), u.getAddress(), u.getMail());
 	}
 	
 	@PostMapping("/Ecorp/newProduct")
-	public IProduct addProduct(@RequestBody Product p) throws RemoteException, MalformedURLException, NotBoundException {
+	public EProduct addProduct(@RequestBody Product p) throws RemoteException, MalformedURLException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return ecorps.addProduct(p.getId(), p.getNom(), p.getDescription());
+		IProduct pr = ecorps.addProduct(p.getId(), p.getNom(), p.getDescription());
+		return new EProduct(pr.getId(), pr.getName(), pr.getDescription());
 	}
 	
 	@GetMapping("/Ecorp/products")

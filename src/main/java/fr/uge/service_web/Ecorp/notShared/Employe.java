@@ -13,7 +13,7 @@ import fr.uge.service_web.ifshare.shared.IPurchase;
 import fr.uge.service_web.ifshare.shared.IUser;
 import fr.uge.service_web.ifshare.shared.ProductState;
 
-public class Employe extends UnicastRemoteObject implements IUser {
+public class Employe {
 	private String id;
 	private String firstname;
 	private String lastname;
@@ -36,7 +36,6 @@ public class Employe extends UnicastRemoteObject implements IUser {
 		this.id = id;
 	}
 	
-	@Override
 	public String getId() throws RemoteException {
 		// TODO Auto-generated method stub
 		return id;
@@ -44,7 +43,6 @@ public class Employe extends UnicastRemoteObject implements IUser {
 
 
 
-	@Override
 	public String getFirstName() throws RemoteException {
 		// TODO Auto-generated method stub
 		return firstname;
@@ -52,83 +50,58 @@ public class Employe extends UnicastRemoteObject implements IUser {
 
 
 
-	@Override
 	public void setFirstName(String firstName) throws RemoteException {
 		this.firstname = firstName;
 	}
 
 
 
-	@Override
 	public String getLastName() throws RemoteException {
 		return lastname;
 	}
 
 
 
-	@Override
 	public void setLastName(String lastName) throws RemoteException {
 		this.lastname = lastName;
 	}
 
 
 
-	@Override
 	public String getAddress() throws RemoteException {
 		// TODO Auto-generated method stub
 		return address;
 	}
 
 
-
-	@Override
 	public void setAddress(String address) throws RemoteException {
 		this.address = address;
 	}
 
 
 
-	@Override
 	public String getMail() throws RemoteException {
 		return mail;
 	}
 
 
 
-	@Override
 	public void setMail(String mail) throws RemoteException {
 		this.mail = mail;
 	}
 
 
 
-	@Override
-	public IOffer offer(IProduct product, ProductState productState, float price, int stock) throws RemoteException {
-		//IOffer offer  = new Offer(0,this,product,productState,price,stock);
-		//this.offers.add(offer);
-		return null;
-	}
 
 
-
-	@Override
-	public IPurchase purchase(IOffer offer,int quantity) throws RemoteException {
-		
-		return null;
-	}
-
-
-
-	@Override
 	public Set<? extends IOffer> getOffers() throws RemoteException {
-		return offers;
+		return null;
 	}
 
 
 
-	@Override
 	public List<? extends IPurchase> getPurchases() throws RemoteException {
-		return purchases;
+		return null;
 	}
 
 }
