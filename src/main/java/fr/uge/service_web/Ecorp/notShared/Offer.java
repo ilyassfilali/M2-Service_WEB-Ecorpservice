@@ -7,7 +7,7 @@ import fr.uge.service_web.ifshare.shared.IProduct;
 import fr.uge.service_web.ifshare.shared.IUser;
 import fr.uge.service_web.ifshare.shared.ProductState;
 
-public class Offer implements IOffer{
+public class Offer{
 	
 	private int id;
 	private IUser seller;
@@ -27,51 +27,63 @@ public class Offer implements IOffer{
 		this.stock = stock;
 	}
 
-	@Override
-	public int getId() throws RemoteException {
-		// TODO Auto-generated method stub
+
+	public int getId() {
 		return id;
 	}
 
-	@Override
-	public IUser getSeller() throws RemoteException {
-		// TODO Auto-generated method stub
-		return seller;
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	@Override
-	public IProduct getProduct() throws RemoteException {
-		// TODO Auto-generated method stub
-		return product;
+
+	public String getSeller() throws RemoteException {
+		return seller.getId();
 	}
 
-	@Override
-	public ProductState getProductState() throws RemoteException {
-		// TODO Auto-generated method stub
+
+	public void setSeller(IUser seller) {
+		this.seller = seller;
+	}
+
+
+	public String getProduct() throws RemoteException {
+		return product.getId();
+	}
+
+
+	public void setProduct(IProduct product) {
+		this.product = product;
+	}
+
+
+	public ProductState getState() {
 		return state;
 	}
 
-	@Override
-	public float getPrice() throws RemoteException {
-		// TODO Auto-generated method stub
+
+	public void setState(ProductState state) {
+		this.state = state;
+	}
+
+
+	public float getPrice() {
 		return price;
 	}
 
-	@Override
-	public void setPrice(float price) throws RemoteException {
+
+	public void setPrice(float price) {
 		this.price = price;
 	}
 
-	@Override
-	public int getStock() throws RemoteException {
-		// TODO Auto-generated method stub
+
+	public int getStock() {
 		return stock;
 	}
 
-	@Override
-	public void refill(int quantity) throws RemoteException {
-		this.stock += quantity;
+
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
-
-
 }

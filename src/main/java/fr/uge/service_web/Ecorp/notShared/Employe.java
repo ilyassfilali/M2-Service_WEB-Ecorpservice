@@ -104,9 +104,9 @@ public class Employe extends UnicastRemoteObject implements IUser {
 
 	@Override
 	public IOffer offer(IProduct product, ProductState productState, float price, int stock) throws RemoteException {
-		IOffer offer  = new Offer(0,this,product,productState,price,stock);
-		this.offers.add(offer);
-		return offer;
+		//IOffer offer  = new Offer(0,this,product,productState,price,stock);
+		//this.offers.add(offer);
+		return null;
 	}
 
 

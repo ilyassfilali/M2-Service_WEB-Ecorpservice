@@ -4,18 +4,22 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.uge.service_web.Ecorp.notShared.EProduct;
 import fr.uge.service_web.Ecorp.notShared.EcorpServices;
 import fr.uge.service_web.Ecorp.notShared.Employe;
+import fr.uge.service_web.Ecorp.notShared.Epurshase;
 import fr.uge.service_web.Ecorp.notShared.Offer;
 import fr.uge.service_web.ifshare.shared.EcorpInterface;
 import fr.uge.service_web.ifshare.shared.IOffer;
@@ -59,10 +63,20 @@ public class EcorpController {
 	}
 	
 	@GetMapping("/Ecorp/products")
-	public Set<IProduct> getproducts() throws RemoteException, MalformedURLException, NotBoundException {
+	public Set<EProduct> getproducts() throws RemoteException, MalformedURLException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return new HashSet<IProduct>(ecorps.getProducts());
+		return ecorps.getProducts().stream().map(p->{
+			try {
+				return new EProduct(p.getId(), p.getName(),p.getDescription());
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}).collect(Collectors.toUnmodifiableSet());
+		
 	}
+
 	
 	@PostMapping("/Ecorp/newoffres")
 	public void addOffer(@RequestBody OfferReq o) throws MalformedURLException, RemoteException, NotBoundException {
@@ -71,22 +85,43 @@ public class EcorpController {
 	}
 	
 	@GetMapping("/Ecorp/offers")
-	public Set<IOffer> getoffers() throws MalformedURLException, RemoteException, NotBoundException {
+	public Set<Offer> getoffers() throws MalformedURLException, RemoteException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return new HashSet<IOffer>(ecorps.getOffers());
+		return ecorps.getOffers().stream().map(p->{
+			try {
+				return new Offer(p.getId(), p.getSeller(), p.getProduct(), p.getProductState(), p.getPrice(), p.getStock());
+			} catch (Exception e) {
+				e.getMessage();
+			}
+			return null;
+		}).collect(Collectors.toUnmodifiableSet());
 	}
 	
 	
 	@PostMapping("/Ecorp/myoffers")
-	public Set<IOffer> getmesoffers(@RequestBody IdReq i) throws MalformedURLException, RemoteException, NotBoundException {
+	public Set<Offer> getmesoffers(@RequestBody IdReq i) throws MalformedURLException, RemoteException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return new HashSet<IOffer>(ecorps.getoffersbyuser(i.getId()));
+		return ecorps.getoffersbyuser(i.getId()).stream().map(p->{
+			try {
+				return new Offer(p.getId(), p.getSeller(), p.getProduct(), p.getProductState(), p.getPrice(), p.getStock());
+			} catch (Exception e) {
+				e.getMessage();
+			}
+			return null;
+		}).collect(Collectors.toUnmodifiableSet());
 	}
 	
 	@PostMapping("/Ecorp/offersbyproduct")
-	public Set<IOffer> getoffersbyproduct(@RequestBody IdReq i) throws MalformedURLException, RemoteException, NotBoundException {
+	public Set<Offer> getoffersbyproduct(@RequestBody IdReq i) throws MalformedURLException, RemoteException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return new HashSet<IOffer>(ecorps.getoffersbyproduct(i.getId()));
+		return ecorps.getoffersbyproduct(i.getId()).stream().map(p->{
+			try {
+				return new Offer(p.getId(), p.getSeller(), p.getProduct(), p.getProductState(), p.getPrice(), p.getStock());
+			} catch (Exception e) {
+				e.getMessage();
+			}
+			return null;
+		}).collect(Collectors.toUnmodifiableSet());
 	}
 	
 	@PostMapping("/Ecorp/newpurshase")
@@ -96,9 +131,17 @@ public class EcorpController {
 	}
 	
 	@PostMapping("/Ecorp/myPurshases")
-	public List<IPurchase> getmyPurshases(@RequestBody IdReq i) throws MalformedURLException, RemoteException, NotBoundException {
+	public List<Epurshase> getmyPurshases(@RequestBody IdReq i) throws MalformedURLException, RemoteException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return ecorps.getpurshasebyuser(i.getId());
+		return ecorps.getpurshasebyuser(i.getId())
+				.stream().map(p->{
+					try {
+						return new Epurshase(p.getOffer(), p.getQuantity(), p.getStatus(), p.getBuyer(), p.getPurchaseDate());
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					return null;
+				}).collect(Collectors.toUnmodifiableList());
 	}
 	
 	

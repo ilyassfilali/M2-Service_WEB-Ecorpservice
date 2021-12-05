@@ -8,7 +8,7 @@ import fr.uge.service_web.ifshare.shared.IPurchase;
 import fr.uge.service_web.ifshare.shared.IUser;
 import fr.uge.service_web.ifshare.shared.PurchaseStatus;
 
-public class Epurshase implements IPurchase{
+public class Epurshase{
 	
 	private IOffer offer;
 	private int qt;
@@ -25,34 +25,44 @@ public class Epurshase implements IPurchase{
 		this.status = status;
 	}
 
-	@Override
-	public IOffer getOffer() throws RemoteException {
-		// TODO Auto-generated method stub
-		return offer;
+	public int getOffer() throws RemoteException {
+		return offer.getId();
 	}
 
-	@Override
-	public int getQuantity() {
-		// TODO Auto-generated method stub
+	public void setOffer(IOffer offer) {
+		this.offer = offer;
+	}
+
+	public int getQt() {
 		return qt;
 	}
 
-	@Override
+	public void setQt(int qt) {
+		this.qt = qt;
+	}
+
 	public PurchaseStatus getStatus() {
-		// TODO Auto-generated method stub
 		return status;
 	}
 
-	@Override
-	public IUser getBuyer() throws RemoteException {
-		// TODO Auto-generated method stub
-		return this.buyer;
+	public void setStatus(PurchaseStatus status) {
+		this.status = status;
 	}
 
-	@Override
-	public Date getPurchaseDate() throws RemoteException {
-		// TODO Auto-generated method stub
+	public String getBuyer() throws RemoteException {
+		return buyer.getId();
+	}
+
+	public void setBuyer(IUser buyer) {
+		this.buyer = buyer;
+	}
+
+	public Date getDate() {
 		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 }
