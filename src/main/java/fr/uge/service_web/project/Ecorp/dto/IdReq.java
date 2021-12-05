@@ -4,10 +4,12 @@ public class IdReq {
 
 	private String id;
 	
-	public IdReq(String id) {
-		this.id=id;
-	}
 	
+	public IdReq(String id) {
+		super();
+		this.id = id;
+	}
+
 	public String getId() {
 		return id;
 	}
