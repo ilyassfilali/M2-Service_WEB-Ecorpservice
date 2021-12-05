@@ -102,9 +102,9 @@ public class EcorpController {
 	
 	
 	@PostMapping("/Ecorp/myoffers")
-	public Set<Offer> getmesoffers(@RequestBody IdReq i) throws MalformedURLException, RemoteException, NotBoundException {
+	public Set<Offer> getmesoffers(@RequestBody String i) throws MalformedURLException, RemoteException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return ecorps.getoffersbyuser(i.getId()).stream().map(p->{
+		return ecorps.getoffersbyuser(i).stream().map(p->{
 			try {
 				return new Offer(p.getId(), p.getSeller(), p.getProduct(), p.getProductState(), p.getPrice(), p.getStock());
 			} catch (Exception e) {
@@ -115,9 +115,9 @@ public class EcorpController {
 	}
 	
 	@PostMapping("/Ecorp/offersbyproduct")
-	public Set<Offer> getoffersbyproduct(@RequestBody IdReq i) throws MalformedURLException, RemoteException, NotBoundException {
+	public Set<Offer> getoffersbyproduct(@RequestBody String i) throws MalformedURLException, RemoteException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return ecorps.getoffersbyproduct(i.getId()).stream().map(p->{
+		return ecorps.getoffersbyproduct(i).stream().map(p->{
 			try {
 				return new Offer(p.getId(), p.getSeller(), p.getProduct(), p.getProductState(), p.getPrice(), p.getStock());
 			} catch (Exception e) {
@@ -134,9 +134,9 @@ public class EcorpController {
 	}
 	
 	@PostMapping("/Ecorp/myPurshases")
-	public List<Epurshase> getmyPurshases(@RequestBody IdReq i) throws MalformedURLException, RemoteException, NotBoundException {
+	public List<Epurshase> getmyPurshases(@RequestBody String i) throws MalformedURLException, RemoteException, NotBoundException {
 		this.ecorps = rmiconnect();
-		return ecorps.getpurshasebyuser(i.getId())
+		return ecorps.getpurshasebyuser(i)
 				.stream().map(p->{
 					try {
 						return new Epurshase(p.getOffer(), p.getQuantity(), p.getStatus(), p.getBuyer(), p.getPurchaseDate());
