@@ -66,7 +66,7 @@ public class EcorpServices extends UnicastRemoteObject implements EcorpInterface
 	}
 
 	@Override
-	public void addoffer(String idpoduit, String iduser,ProductState state,int price,int stock) throws RemoteException {
+	public void addoffer(String idpoduit, String iduser,ProductState state,float price,int stock) throws RemoteException {
 		IProduct product = getProduct(idpoduit);
 		IUser user = getUser(iduser);
 		user.offer(product, state, price,stock);
@@ -106,7 +106,6 @@ public class EcorpServices extends UnicastRemoteObject implements EcorpInterface
 	@Override
 	public String getid() throws RemoteException {
 		List<IUser> users = new Vector<IUser>(ifshare.getUsers());
-		
 		if(users.size() == 0) {
 			return "1";
 		}

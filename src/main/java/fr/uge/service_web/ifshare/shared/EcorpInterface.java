@@ -22,7 +22,7 @@ public interface EcorpInterface extends Remote{
 
     Set<? extends IUser> getUsers() throws RemoteException;
 	
-	public void addoffer(String idpoduit,String iduser,ProductState state,int price,int stock) throws RemoteException;
+	public void addoffer(String idpoduit,String iduser,ProductState state,float price,int stock) throws RemoteException;
 	public List<IOffer> getoffersbyuser(String iduser) throws RemoteException;
 	public List<IOffer> getoffersbyproduct(String idproduct) throws RemoteException;
 	public IOffer getofferbyid(int id) throws RemoteException;
