@@ -106,11 +106,12 @@ public class EcorpServices extends UnicastRemoteObject implements EcorpInterface
 	@Override
 	public String getid() throws RemoteException {
 		List<IUser> users = new Vector<IUser>(ifshare.getUsers());
-		IUser user = users.get(users.size()-1);
-		int id = Integer.parseInt(user.getId()) + 1;
+		
 		if(users.size() == 0) {
 			return "1";
 		}
+		IUser user = users.get(users.size()-1);
+		int id = Integer.parseInt(user.getId()) + 1;
 		return id+"";
 	}
 

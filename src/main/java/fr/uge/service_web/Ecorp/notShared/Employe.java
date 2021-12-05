@@ -23,9 +23,8 @@ public class Employe extends UnicastRemoteObject implements IUser {
 	private List<IPurchase> purchases = new Vector<IPurchase>();	
 	
 
-	public Employe(String id,String firstname, String lastname, String address, String mail) throws RemoteException {
+	public Employe(String firstname, String lastname, String address, String mail) throws RemoteException {
 		super();
-		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.address = address;
@@ -33,7 +32,10 @@ public class Employe extends UnicastRemoteObject implements IUser {
 	}
 
 
-
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	@Override
 	public String getId() throws RemoteException {
 		// TODO Auto-generated method stub

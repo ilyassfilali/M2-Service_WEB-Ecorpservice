@@ -1,5 +1,7 @@
 package fr.uge.service_web.project.Ecorp;
 
+import java.rmi.RemoteException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +15,9 @@ public class EcorpController {
 	private EcorpInterface ecorps;
 	
 	@PostMapping("/Ecorp/inscription")
-	public void inscription(@RequestBody Employe e) {
-		String id;
+	public void inscription(@RequestBody Employe e) throws RemoteException {
+		String id = ecorps.getid();
+		e.setId(id);
 	}
 
 }
