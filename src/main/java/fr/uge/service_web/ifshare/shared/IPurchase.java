@@ -1,4 +1,4 @@
-package fr.uge.service_web.project.shared;
+package fr.uge.service_web.ifshare.shared;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;

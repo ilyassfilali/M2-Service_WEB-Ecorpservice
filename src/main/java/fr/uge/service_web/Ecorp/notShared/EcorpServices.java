@@ -1,30 +1,32 @@
 package fr.uge.service_web.Ecorp.notShared;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Vector;
 
-import fr.uge.service_web.Ecorp.Shared.Ecommand;
-import fr.uge.service_web.Ecorp.Shared.EcorpInterface;
-import fr.uge.service_web.Ecorp.Shared.IOffer;
-import fr.uge.service_web.Ecorp.Shared.IPerson;
-import fr.uge.service_web.Ecorp.Shared.IProduct;
-import fr.uge.service_web.Ecorp.Shared.IfShareInterface;
-import fr.uge.service_web.Ecorp.Shared.ProductState;
+import fr.uge.service_web.ifshare.shared.EcorpInterface;
+import fr.uge.service_web.ifshare.shared.IOffer;
+import fr.uge.service_web.ifshare.shared.IProduct;
+import fr.uge.service_web.ifshare.shared.IPurchase;
+import fr.uge.service_web.ifshare.shared.IUser;
+import fr.uge.service_web.ifshare.shared.IfShareInterface;
+import fr.uge.service_web.ifshare.shared.ProductState;
+import fr.uge.service_web.ifshare.shared.PurchaseStatus;
 
-public class EcorpServices implements EcorpInterface{
+public class EcorpServices extends UnicastRemoteObject implements EcorpInterface{
 	
-	IfShareInterface ifshare;
-	private HashMap<String, IPerson> employes = new HashMap<String, IPerson>();
-	private HashMap<IPerson, String> employespassword = new HashMap<IPerson, String>();
-	private List<Ecommand> commands = new Vector<>();
+	private IfShareInterface ifshare;
+	private HashMap<String, String> passwds = new HashMap<String, String>();	
 	
-	public EcorpServices(IfShareInterface ifshare) {
-		this.ifshare = ifshare;
+	public EcorpServices(IfShareInterface ifShare) throws RemoteException {
+		super();
+		this.ifshare = ifShare;
 	}
 
 	@Override
@@ -34,107 +36,113 @@ public class EcorpServices implements EcorpInterface{
 	}
 
 	@Override
-	public Set<IProduct> getProducts() throws RemoteException {
-		// TODO Auto-generated method stub
+	public Set<? extends IProduct> getProducts() throws RemoteException {
+		
 		return ifshare.getProducts();
 	}
 
 	@Override
-	public void addOffer(IPerson seller, IProduct product, ProductState productState, float price, int stock)
+	public Map<? extends IProduct, ? extends IOffer> getOffers() throws RemoteException {
+		// TODO Auto-generated method stub
+		return ifshare.getOffers();
+	}
+
+	@Override
+	public IUser addUser(String id, String firstName, String lastName, String address, String mail)
 			throws RemoteException {
-		ifshare.addOffer(seller, product, productState, price, stock);
-		
+		return ifshare.addUser(id, firstName, lastName, address, mail);
 	}
 
 	@Override
-	public Optional<List<IOffer>> getOffers(IProduct product) throws RemoteException {
+	public IUser getUser(String id) throws RemoteException {
 		// TODO Auto-generated method stub
-		return ifshare.getOffers(product);
+		return ifshare.getUser(id);
 	}
 
 	@Override
-	public void addPersonne(String id,String fistname, String lastname, String adress, String mail,String passwd) throws RemoteException{
-		IPerson emp = new Employe(fistname, lastname, adress, mail);
-		
-		synchronized (employes) {
-			employes.put(id, emp);
-		}
-		synchronized (employespassword) {
-			employespassword.put(emp, passwd);
-		}
-		
-	}
-
-	@Override
-	public Set<IPerson> getallPersonnel() throws RemoteException{
-		synchronized (employes) {
-			return new HashSet<IPerson>(employes.values());
-		}
-	}
-
-	@Override
-	public IPerson getPersonnel(String id) throws RemoteException{
-		synchronized (employes) {
-			return employes.get(id);
-		}
-	}
-	
-	@Override
-	public IPerson getPersonnelbyname(String fistname,String lastname) throws RemoteException{
-		synchronized (employes) {
-			for (IPerson p : employes.values()) {
-				if(p.getFirstName().equals(fistname) && p.getLastName().equals(lastname)) {
-					return p;
-				}
-			}
-			return null;
-		}
-	}
-	
-	@Override
-	public boolean connect(String email,String passwd) throws RemoteException{
-		
-		IPerson e =null;
-		synchronized (employes) {
-			for (IPerson p : employes.values()) {
-				if(p.getMail().equals(email)) {
-					e = p;
-				}
-			}
-		}
-		if(e == null) {
-			return false;
-		}
-		
-		synchronized (employespassword) {
-			if(employespassword.get(e).equals(passwd)) {
-				return true;
-			}else {
-				return false;
-			}
-		}
-	}
-
-	@Override
-	public void addcommand(String idbyer,String idproduct, String idoffer) throws RemoteException {
-		IPerson emp = getPersonnel(idoffer);
-		//besoin de .......
-	}
-
-	@Override
-	public List<Ecommand> getcommands() throws RemoteException {
+	public Set<? extends IUser> getUsers() throws RemoteException {
 		// TODO Auto-generated method stub
-		return commands;
+		return ifshare.getUsers();
 	}
 
 	@Override
-	public Ecommand getcommandbyEmploye(String id) throws RemoteException {
-		for (Ecommand ecommand : commands) {
-			if(ecommand.getbyer() == getPersonnel(id)) {
-				return ecommand;
+	public void addoffer(String idpoduit, String iduser,ProductState state,int price,int stock) throws RemoteException {
+		IProduct product = null;
+		for (IProduct pro : getProducts()) {
+			if(pro.getId().equals(idpoduit)) {
+				product = pro;
+			}
+		}
+		IUser user = getUser(iduser);
+		user.offer(product, state, price,stock);
+	}
+
+	@Override
+	public List<IOffer> getoffersbyuser(String iduser) throws RemoteException {
+		IUser user = getUser(iduser);
+		
+		return new Vector<IOffer>(user.getOffers());
+	}
+
+	@Override
+	public List<IOffer> getoffersbyproduct(String idproduct) throws RemoteException {
+		for (IProduct pr : ifshare.getProducts()) {
+			if(pr.getId().equals(idproduct)) {
+				return (List<IOffer>) ifshare.getOffers().get(pr);
 			}
 		}
 		return null;
 	}
 
+	@Override
+	public IUser connect(String email, String passwd) throws RemoteException {
+		for (IUser user : ifshare.getUsers()) {
+			if(user.getMail().equals(email)) {
+				if(passwds.get(user.getId()).equals(passwd)) {
+					return user;
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void addPasswd(String iduser, String passwd) throws RemoteException {
+		passwds.put(iduser, passwd);
+		
+	}
+
+	@Override
+	public String getid() throws RemoteException {
+		List<IUser> users = new Vector<IUser>(ifshare.getUsers());
+		IUser user = users.get(users.size()-1);
+		int id = Integer.parseInt(user.getId()) + 1;
+		return id+"";
+	}
+
+	@Override
+	public void addpurshase(String iduser, int idoffre, int qt) throws RemoteException {
+		IUser user = getUser(iduser);
+		IOffer offer =  getofferbyid(idoffre);
+		user.purchase(offer,qt);
+	}
+
+	@Override
+	public List<IPurchase> getpurshasebyuser(String iduser) throws RemoteException {
+
+		IUser user = getUser(iduser);
+		List<IPurchase> list = new Vector<IPurchase>(user.getPurchases());		
+		return list;
+	}
+
+	@Override
+	public IOffer getofferbyid(int id) throws RemoteException {
+		for (IOffer of : ifshare.getOffers().values()) {
+			if(of.getId() == id) {
+				return of;
+			}
+		}
+		return null;
+	}
+	
 }

@@ -1,4 +1,4 @@
-package fr.uge.service_web.Ecorp;
+package fr.uge.service_web.project.Ecorp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

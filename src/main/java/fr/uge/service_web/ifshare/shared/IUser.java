@@ -1,4 +1,4 @@
-package fr.uge.service_web.project.shared;
+package fr.uge.service_web.ifshare.shared;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -26,7 +26,7 @@ public interface IUser extends Remote {
 
     IOffer offer(IProduct product, ProductState productState, float price, int stock) throws RemoteException;
 
-    IPurchase purchase(IOffer offer) throws RemoteException;
+    IPurchase purchase(IOffer offer,int quantity) throws RemoteException;
 
     Set<? extends IOffer> getOffers() throws RemoteException;
 

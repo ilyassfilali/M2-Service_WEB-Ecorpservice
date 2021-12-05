@@ -1,28 +1,30 @@
-package fr.uge.service_web.project.Ecorp.notShared;
+package fr.uge.service_web.Ecorp.notShared;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fr.uge.service_web.project.shared.EcorpInterface;
-import fr.uge.service_web.project.shared.Ecorpsharedinterface;
-import fr.uge.service_web.project.shared.IOffer;
-import fr.uge.service_web.project.shared.IProduct;
-import fr.uge.service_web.project.shared.IPurchase;
-import fr.uge.service_web.project.shared.IUser;
+import fr.uge.service_web.ifshare.shared.EcorpInterface;
+import fr.uge.service_web.ifshare.shared.Ecorpsharedinterface;
+import fr.uge.service_web.ifshare.shared.IOffer;
+import fr.uge.service_web.ifshare.shared.IProduct;
+import fr.uge.service_web.ifshare.shared.IPurchase;
+import fr.uge.service_web.ifshare.shared.IUser;
 
-public class Ecorpshared implements Ecorpsharedinterface{
+public class Ecorpshared extends UnicastRemoteObject implements Ecorpsharedinterface{
 	
 	private EcorpInterface interface1;
 	
-	public Ecorpshared(EcorpInterface interface1) {
+	public Ecorpshared(EcorpInterface interface1) throws RemoteException{
+		super();
 		this.interface1 = interface1;
 	}
 
 	@Override
-	public void addpurshase(String iduser, String idoffre, int qt) throws RemoteException {
-		interface1.addpushase(iduser, idoffre, qt);
+	public void addpurshase(String iduser, int idoffre, int qt) throws RemoteException {
+		interface1.addpurshase(iduser, idoffre, qt);
 	}
 
 	@Override
@@ -63,6 +65,12 @@ public class Ecorpshared implements Ecorpsharedinterface{
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		return interface1.addUser(id, firstName, lastName, address, mail);
+	}
+
+	@Override
+	public IOffer getofferbyid(int id) throws RemoteException {
+		// TODO Auto-generated method stub
+		return interface1.getofferbyid(id);
 	}
 	
 	

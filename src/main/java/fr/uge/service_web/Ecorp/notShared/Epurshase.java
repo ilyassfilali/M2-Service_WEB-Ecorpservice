@@ -1,10 +1,10 @@
-package fr.uge.service_web.project.Ecorp.notShared;
+package fr.uge.service_web.Ecorp.notShared;
 
 import java.rmi.RemoteException;
 
-import fr.uge.service_web.project.shared.IOffer;
-import fr.uge.service_web.project.shared.IPurchase;
-import fr.uge.service_web.project.shared.PurchaseStatus;
+import fr.uge.service_web.ifshare.shared.IOffer;
+import fr.uge.service_web.ifshare.shared.IPurchase;
+import fr.uge.service_web.ifshare.shared.PurchaseStatus;
 
 public class Epurshase implements IPurchase{
 	
